@@ -93,7 +93,8 @@ def cut_audio(old_path, new_path, start, end):
             Desired end time of new audio in seconds.
 
     """
-    fs, data = wavfile.read(old_path)
+	
+    fs, data = load_audio(old_path)
     indx_start = int(start*fs)
     indx_end = int(end*fs)+1
     wavfile.write(new_path,fs,data[indx_start:indx_end])
