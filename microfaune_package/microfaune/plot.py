@@ -75,6 +75,62 @@ def plot_spec(spec, t, f, fs, scale_spec="linear", window_length=0.2, overlap=0.
     plt.close()
 
     return None
+	
+def plot_spec_nice_looking(spec, t, f, fs, scale_spec="linear", window_length=0.2, overlap=0.5,
+              plot_title="", fig_size=(20, 5), save_fig=False, save_path="spec.png", plot_main_frequencies=False):
+    """ Plot spectrogram.ss
+           Parameters
+            ----------
+            spec : array-like
+                Array of shape (frequency, time) containing the spectrogram.
+            t : array-like
+                Array of shape (time, 1) containing the time scale of spectrogram.
+                None if MEL scale is used
+            f : array-like
+                Array of shape (frequency, 1) containing the frequency scale of spectrogram.
+                None if MEL scale is used
+            fs : int
+                Sampling frequency in Hz.
+            scale_spec : str
+                scale used to use to compute spectrogram, can be "linear" or "MEL".
+            window_length : float
+                Length of the FFT window in seconds.
+            overlap : float
+                Overlap of the FFT windows.
+            plot_title : str
+                Title of the plotted figure.
+            fig_size : (int, int)
+                Size of the plotted figure.
+            save_fig : boolean
+                True if the plot is saved, wrong otherwise.
+            save_path : str
+                Path of the saved figure.
+            plot_main_frequencies : boolean
+                True if median, minimum and maximum frequency are plotted on spectrograms, wrong otherwise.
+
+            Returns:
+            -------
+            None
+        """
+
+    plt.set_cmap('inferno')
+    pylab.rcParams['figure.figsize'] = fig_size
+    pylab.rcParams.update({'font.size': 20})
+    plt.close()
+
+    # Derive FFT parameters
+    HOP_LEN = int(overlap * window_length * fs) + 1
+	
+    plt.pcolormesh(t, f, spec)
+    plt.xlabel('Time [sec]')
+    plt.ylabel('Frequency [Hz]')
+
+    if save_fig:
+        plt.savefig(save_path)
+    plt.show()
+    plt.close()
+
+    return None
 
 
 def find_most_used_frequencies(f, spec):
